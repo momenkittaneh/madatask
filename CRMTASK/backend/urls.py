@@ -7,10 +7,11 @@ from .views import *
 router = DefaultRouter()
 
 router.register('customers',customerviewset,basename=customers)
+router.register('services',serviceviewset,basename=service)
 
 
 urlpatterns =[
 
     path('', include(router.urls)),
-    
+
 ]

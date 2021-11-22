@@ -2,19 +2,16 @@
     <div class="container">
         <div class="columns is-multiline">
             <div class="column is-4 is-offset-4">
-                <router-link :to="{ name: 'edit', params: { id: customer.id }}">edit</router-link>
             </div>
             <div class="column is-12">
+                <h1>services</h1>
       <h2>{{customer.name}}</h2>
-      <h2>{{customer.gender}}</h2>
-      <h2>{{customer.age}}</h2>
-      <h2>{{customer.company}}</h2>
  </div>
  
         </div>
         
         <h2>services</h2>
-        <div v-for="serv in services"
+        <div v-for="serv in services.common"
         v-bind:key="serv.id">
            <h3 > {{serv.name}} </h3><br> 
         </div>
@@ -24,7 +21,7 @@
 <script>
 import axios from 'axios'
 export default {
-    name : 'detail'
+    name : 'service'
 ,
 data(){
     return{
@@ -39,7 +36,7 @@ mounted(){
 methods : {
      getcustomer(){
         const customerid = this.$route.params.id
-        axios.get(`/api/v1/customers/${customerid}/`)
+        axios.get(`/api/v1/services/${customerid}/`)
         .then(response => {this.customer=response.data})
         .catch(console.error(404))},
      getservices(){

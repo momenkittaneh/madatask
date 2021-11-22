@@ -21,10 +21,18 @@ class customers(models.Model):
     age=models.IntegerField()
     company=models.CharField(max_length=100)
     service=models.ManyToManyField('service',related_name='service',blank=True)
+    def __str__(self) :
+        return self.name
+
+
 
 
 class service(models.Model):
     name = models.CharField(max_length=100)
     customer=models.ManyToManyField(customers,related_name='customer',blank=True)
+    def __str__(self) :
+        return self.name
+
+
 
 

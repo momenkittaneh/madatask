@@ -7,3 +7,8 @@ class customersserializer (serializers.ModelSerializer):
         model = customers
         fields=('id','name','gender','age','company','service')
         
+class serviceserializer (serializers.ModelSerializer):
+    class Meta:
+        model = service
+        fields=('id','name','customer')
+        
