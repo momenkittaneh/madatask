@@ -17,14 +17,18 @@ const routes = [
     component: Signup
   },
   {
-    path: '/sign-in',
+    path: '/log-in',
     name: 'LogIN',
     component: LogIN
   },
   {
     path: '/list',
     name: 'list',
-    component: List
+    component: List,
+    meta: {
+      requireLogin: true
+    }
+
   },
   {
     path: '/about',
@@ -41,12 +45,12 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
-//     next('/log-in')
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
+    next('/log-in')
+  } else {
+    next()
+  }
+})
 
 export default router

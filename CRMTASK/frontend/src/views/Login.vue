@@ -4,23 +4,24 @@
             <div class="column is-4 is-offset-4">
                 <h1 class="title">Log in</h1>
             
-                <form>
+                <form @submit.prevent="submitForm">
                     <div class="field">
-                        <label>employee name</label>
+                        <label>Email</label>
                         <div class="control">
-                            <input type="email" name="text" class="input">
+                            <input type="email" name="email" class="input" v-model="username">
                         </div>
                     </div>
 
                     <div class="field">
                         <label>Password</label>
                         <div class="control">
-                            <input type="password" name="password" class="input">
+                            <input type="password" name="password" class="input" v-model="password">
                         </div>
                     </div>
 
-
-                    
+                    <div class="notification is-danger" v-if="errors.length">
+                        <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
+                    </div>
 
                     <div class="field">
                         <div class="control">
@@ -32,9 +33,63 @@
         </div>
     </div>
 </template>
-<script>
 
+<script>
+    import axios from 'axios'
     export default {
-        name: 'LogIN',
+        name: 'LogIn',
+        data() {
+            return {
+                username: '',
+                password: '',
+                errors: []
+            }
+        },
+        methods: {
+            async submitForm() {
+                axios.defaults.headers.common['Authorization'] = ''
+                localStorage.removeItem('token')
+                const formData = {
+                    username: this.username,
+                    password: this.password
+                }
+                await axios
+                    .post('/api/v1/token/login/', formData)
+                    .then(response => {
+                        const token = response.data.auth_token
+                        axios.defaults.headers.common['Authorization'] = 'Token ' + token
+                        localStorage.setItem('token', token)
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            for (const property in error.response.data) {
+                                this.errors.push(`${property}: ${error.response.data[property]}`)
+                            }
+                        } else if (error.message) {
+                            this.errors.push('Something went wrong. Please try again!')
+                        }
+                    })
+                await axios
+                    .get('/api/v1/users/me')
+                    .then(response => {
+                        localStorage.setItem('username', response.data.username)
+                        localStorage.setItem('userid', response.data.id)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                await axios
+                    .get('/api/v1/teams/get_my_team/')
+                    .then(response => {
+                        console.log(response.data)
+                        
+                        this.$router.push('/dashboard/my-account')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                
+            }
         }
+    }
 </script>
