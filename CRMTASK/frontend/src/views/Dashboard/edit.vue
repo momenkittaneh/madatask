@@ -47,6 +47,10 @@
                         </div>
                     </div>
                 </form>
+                                <form @submit.prevent="deleteForm">
+                                        <button class="button is-success">delete</button>
+                                </form>
+
             </div>
         </div>
     </div>
@@ -86,7 +90,21 @@ methods : {
                 console.log(error)
             })
         this.$store.commit('setIsLoading', false)
+    },
+            deleteForm() {
+        const customerid = this.$route.params.id
+        this.$store.commit('setIsLoading', true)
+        axios
+            .delete(`/api/v1/customers/${customerid}/`, this.customer)
+            .then(response => {
+                this.$router.push('/list')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        this.$store.commit('setIsLoading', false)
     }
+
 }
 
     }

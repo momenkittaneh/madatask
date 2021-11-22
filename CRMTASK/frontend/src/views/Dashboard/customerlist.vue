@@ -37,6 +37,8 @@
       <th scope="row">{{customer.gender}}</th>
       <th scope="row">{{customer.age}}</th>
       <th scope="row">{{customer.company}}</th>
+      <button class="btn btn-danger" v-on:click="deleteArticle(customer.id)">Delete</button>
+
     </tr>
   </tbody></table></div>
           <h2>services</h2>
@@ -91,7 +93,7 @@ export default{
         .catch(console.error(404))},
         submitForm(){
           this.getcustomers()
-            }
+            },
 
     }
 }
