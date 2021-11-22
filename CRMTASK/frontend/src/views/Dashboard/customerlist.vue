@@ -5,6 +5,8 @@
                 <h1 class="title">CUSTOMERS LIST</h1>
             </div>
             <div class="column is-12">
+                        <router-link to="/new">add customer</router-link>
+
             <table class="table">
   <thead>
     <tr>

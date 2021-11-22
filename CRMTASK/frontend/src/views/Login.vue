@@ -45,20 +45,22 @@
                 errors: []
             }
         },
-        methods: {
-            async submitForm() {
+methods: {
+            submitForm() {
                 axios.defaults.headers.common['Authorization'] = ''
                 localStorage.removeItem('token')
                 const formData = {
                     username: this.username,
                     password: this.password
                 }
-                await axios
+                axios
                     .post('/api/v1/token/login/', formData)
                     .then(response => {
                         const token = response.data.auth_token
+                        this.$store.commit('setToken', token)
                         axios.defaults.headers.common['Authorization'] = 'Token ' + token
                         localStorage.setItem('token', token)
+                        this.$router.push('/list')
                     })
                     .catch(error => {
                         if (error.response) {
@@ -68,28 +70,5 @@
                         } else if (error.message) {
                             this.errors.push('Something went wrong. Please try again!')
                         }
-                    })
-                await axios
-                    .get('/api/v1/users/me')
-                    .then(response => {
-                        localStorage.setItem('username', response.data.username)
-                        localStorage.setItem('userid', response.data.id)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-                await axios
-                    .get('/api/v1/teams/get_my_team/')
-                    .then(response => {
-                        console.log(response.data)
-                        
-                        this.$router.push('/dashboard/my-account')
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-                
-            }
-        }
-    }
-</script>
+                    })}}}
+            </script>

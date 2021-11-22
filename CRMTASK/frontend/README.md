@@ -1,4 +1,4 @@
-# frontend
+# ganarcrm_vue
 
 ## Project setup
 ```

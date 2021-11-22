@@ -6,7 +6,7 @@ from .models import *
 
 
 
-class customerviewset(viewsets.ViewSet):
+class customerviewset(viewsets.ModelViewSet):
     serializer_class = customersserializer
     queryset = customers.objects.all()
 

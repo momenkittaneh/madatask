@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import LogIN from '../views/Login.vue'
 import List from '../views/Dashboard/customerlist.vue'
+import newcustomer from '../views/Dashboard/newcustomer.vue'
+import detail from '../views/Dashboard/detail.vue'
 
 const routes = [
   {
@@ -27,7 +29,19 @@ const routes = [
     component: List,
     meta: {
       requireLogin: true
-    }
+  }},{
+    path: '/new',
+    name: 'newcustomer',
+    component: newcustomer,
+    meta: {
+      requireLogin: true
+  }},{
+    path: '/customer/:id',
+    name: 'detail',
+    component: detail,
+    meta: {
+      requireLogin: true
+    },
 
   },
   {
